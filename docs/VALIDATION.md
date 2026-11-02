@@ -31,3 +31,7 @@ Do not describe these artifacts as fully tested on Mac and Windows until the nat
 The release workflow now builds native Intel Mac DMG and Windows NSIS EXE installers, tests the packaged executables, and publishes both with SHA-256 checksums for a matching version tag. Publication requires both platform jobs to succeed.
 
 The workflow YAML was parsed and its build dependency/permissions checked locally. The modified desktop harness passed against both the Linux source application and `dist/linux-unpacked/mandi-invoice`, including save/restart and native PDF generation. All six calculation tests also passed. Native Mac/Windows release outcomes remain unobserved from this environment while GitHub API access is blocked.
+
+## Version 1.0.2 fish entry
+
+Eight model tests pass. Browser integration now also verifies chip selection, weight-to-rate Enter navigation, live price rounding, rejection of empty lots, blocking save/preview with an unadded lot, Enter/click addition, clearing fields and returning focus, repeated fish with independent rates, custom fish, save/reload, and replacement of the initial blank row. The full browser/PDF suite passed and software screenshots were regenerated.

@@ -24,7 +24,9 @@ Search saved bills by customer, bill number or account number.
 
 ### Invoice editor
 
-Choose a fish and enter its weight and negotiated rate. Charges and balances update as you type.
+Click a fish button, enter weight and the negotiated rate, then press Enter to add the lot. The live price uses the invoice’s rounding rules. Weight and rate clear for the next sale; existing rows remain editable.
+
+![One-click fish selector and live lot price](docs/screenshots/05-fish-picker.png)
 
 ![Invoice editor showing customer details, editable per-row rates and charges](docs/screenshots/02-invoice-editor.png)
 

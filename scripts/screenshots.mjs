@@ -28,6 +28,7 @@ try {
  await page.getByRole('button',{name:'Open',exact:true}).click();
  await page.locator('#rows tr').last().waitFor();
  await capture('02-invoice-editor');
+ await page.locator('#fish-picker').screenshot({path:'docs/screenshots/05-fish-picker.png'});
  await page.locator('#preview').click();
  await page.locator('.paper').waitFor();
  await capture('03-print-preview');

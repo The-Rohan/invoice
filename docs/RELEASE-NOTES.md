@@ -1,3 +1,5 @@
+New in 1.0.2: one-click Urdu fish buttons, weight and negotiated-rate entry, live lot price, and Enter-to-add. Weight and rate clear after each addition. Custom fish names and editing existing rows remain available.
+
 Offline Urdu fish-market billing for Intel Mac and Windows x64.
 
 ## Downloads
