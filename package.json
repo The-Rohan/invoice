@@ -1,0 +1,62 @@
+{
+  "name": "mandi-invoice",
+  "version": "1.0.0",
+  "description": "Offline Urdu fish-market invoicing",
+  "author": "Mandi Invoice contributors",
+  "license": "MIT",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/model.test.js",
+    "test:ui": "node test/browser.mjs",
+    "pack:mac": "electron-builder --mac zip --x64",
+    "pack:win": "electron-builder --win zip --x64",
+    "dist:mac": "electron-builder --mac dmg --x64",
+    "dist:win": "electron-builder --win nsis --x64"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.12",
+    "playwright": "^1.56.1"
+  },
+  "build": {
+    "appId": "com.mandi.invoice",
+    "productName": "Mandi Invoice",
+    "files": [
+      "src/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.finance",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "identity": null
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
