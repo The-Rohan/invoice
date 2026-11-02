@@ -8,6 +8,36 @@ This is a new standalone MIT-licensed Electron app, not an Invoiso fork or an In
 
 ![Generated Urdu invoice](docs/sample-invoice.png)
 
+## Software screenshots
+
+Captured from the running application in Chromium on Linux, using the approved sample invoice. The Electron desktop app uses the same interface; these images do not show native macOS or Windows window frames.
+
+### Invoice list
+
+Search saved bills by customer, bill number or account number.
+
+![Invoice list with a saved sample bill](docs/screenshots/01-invoices.png)
+
+### Invoice editor
+
+Choose a fish and enter its weight and negotiated rate. Charges and balances update as you type.
+
+![Invoice editor showing customer details, editable per-row rates and charges](docs/screenshots/02-invoice-editor.png)
+
+### Print preview
+
+Review the two-column Urdu invoice before printing or saving a PDF.
+
+![Application print preview with the two-column Urdu invoice](docs/screenshots/03-print-preview.png)
+
+### Business settings
+
+Edit the business name, Urdu address, owner and manager contact details.
+
+![Business settings form](docs/screenshots/04-business-settings.png)
+
+To regenerate these screenshots from the repository root, run `node scripts/screenshots.mjs` after `npm ci`. This uses a fresh browser profile and does not modify your saved desktop invoices. Chromium must be installed; set `CHROMIUM_PATH` if it is not at `/usr/bin/chromium`.
+
 ## Use it
 
 1. Open the app and choose **Business settings**. Confirm the Urdu business name, address and contact numbers.
