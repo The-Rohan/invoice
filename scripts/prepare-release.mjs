@@ -1,0 +1,15 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const target=process.argv[2];
+if(!['mac','win'].includes(target))throw new Error('Usage: node scripts/prepare-release.mjs mac|win');
+const extension=target==='mac'?'.dmg':'.exe';
+const files=(await fs.readdir('dist')).filter(f=>f.endsWith(extension));
+if(files.length!==1)throw new Error(`Expected one ${extension} installer; found ${files.length}`);
+const source=path.join('dist',files[0]);
+if((await fs.stat(source)).size<1_000_000)throw new Error('Installer is unexpectedly small; refusing to publish.');
+const {version}=JSON.parse(await fs.readFile('package.json','utf8'));
+if(process.env.GITHUB_REF_TYPE==='tag'&&process.env.GITHUB_REF_NAME!==`v${version}`)throw new Error('Release tag must match package.json version.');
+await fs.mkdir('release',{recursive:true});
+const name=`Mandi-Invoice-${version}-${target==='mac'?'mac-intel':'windows-x64'}${extension}`;
+await fs.copyFile(source,path.join('release',name));
+console.log(`Prepared ${name}`);

@@ -25,3 +25,9 @@ The local Windows NSIS installer attempt failed because Wine is not installed in
 - Import/migration of the user's existing Invoiso data. This standalone app has a different data format.
 
 Do not describe these artifacts as fully tested on Mac and Windows until the native jobs and real-device acceptance checks succeed.
+
+## Installer release workflow update
+
+The release workflow now builds native Intel Mac DMG and Windows NSIS EXE installers, tests the packaged executables, and publishes both with SHA-256 checksums for a matching version tag. Publication requires both platform jobs to succeed.
+
+The workflow YAML was parsed and its build dependency/permissions checked locally. The modified desktop harness passed against both the Linux source application and `dist/linux-unpacked/mandi-invoice`, including save/restart and native PDF generation. All six calculation tests also passed. Native Mac/Windows release outcomes remain unobserved from this environment while GitHub API access is blocked.

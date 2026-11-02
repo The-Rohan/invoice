@@ -51,11 +51,13 @@ To regenerate these screenshots from the repository root, run `node scripts/scre
 
 ## Downloads and platform status
 
-Local build outputs: `dist/Mandi Invoice-1.0.0-mac.zip` (Intel x64 `.app`) and `dist/Mandi Invoice-1.0.0-win.zip` (Windows x64 portable folder). Extract the entire Windows archive, keeping its supporting files beside the EXE. On Mac, extract and move the app to Applications.
+Download published installers from **[GitHub Releases](https://github.com/The-Rohan/invoice/releases)**. Choose the Intel Mac `.dmg` or Windows x64 `.exe` under the release's **Assets**. Source-code ZIP downloads do not contain the app.
 
-These are unsigned builds. macOS may require the normal Privacy & Security “Open Anyway” approval; Windows may show a publisher warning. No signing or notarization credentials have been provided. Do not disable OS protection globally.
+A `v*` tag starts native Mac/Windows builds. The workflow tests both the source and packaged app, then publishes a preview release only if both platforms pass. If no release is listed yet, check [the build workflow](https://github.com/The-Rohan/invoice/actions/workflows/desktop.yml); a queued or failed build has no published installer.
 
-The GitHub Actions workflow builds an Intel Mac DMG and a Windows installer, and runs a real desktop launch/save/restart test on each OS. Artifacts appear under the successful workflow run. A configured workflow is not evidence that its run passed. See `docs/VALIDATION.md` for actual results and remaining platform checks.
+These preview builds are unsigned. macOS may require the per-app Privacy & Security “Open Anyway” approval; Windows may show a publisher warning. No signing or notarization credentials have been provided. Do not disable OS protection globally.
+
+Local cross-built portable archives are also available under `dist/`, but are not ordinary Git files. Their successful build does not establish native platform validation. See `docs/VALIDATION.md` for the local test record; GitHub Actions provides the results for each release.
 
 ## Development
 
