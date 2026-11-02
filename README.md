@@ -10,7 +10,7 @@ This is a new standalone MIT-licensed Electron app, not an Invoiso fork or an In
 
 ## Shop identity
 
-Current defaults use **مٹمل مچھلی منڈی** and the contacts/fish names from your shop sign. See [shop details and upgrade behavior](docs/SHOP-DETAILS.md). Rates are always entered per sale. The screenshots below show the earlier branding and will be refreshed with the next build.
+Current defaults use **مٹمل مچھلی منڈی** and the contacts/fish names from your shop sign. See [shop details and upgrade behavior](docs/SHOP-DETAILS.md). Rates are always entered per sale. The screenshots below show the updated shop details.
 
 ## Software screenshots
 
