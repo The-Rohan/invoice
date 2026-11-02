@@ -50,7 +50,7 @@ To regenerate these screenshots from the repository root, run `node scripts/scre
 2. Choose **New invoice**, enter a customer, bill number and date. Previously saved customer names are searchable and fill their contact details.
 3. Search/type each fish name. Enter kilograms and the rate agreed with this buyer **per 40 kg**. Add as many rows as needed. Repeated fish can have different prices.
 4. Enter commission, fee, labour, freight, previous balance and payment. Previous balance is explicitly entered; this app does not maintain an automatic customer ledger.
-5. **Save invoice**, then **Preview & print → Print / Save PDF**. Use A4 landscape, 100% scale, no browser headers, and backgrounds enabled. The native operating-system print dialog provides PDF saving where configured.
+5. **Save invoice**, then **Preview & print → Print or Save as PDF**. Use A4 landscape, 100% scale, no browser headers, and backgrounds enabled. Print opens the printer dialog. Save as PDF opens a file-save dialog directly and exports the full invoice.
 6. Use **Back up** regularly. **Restore** validates a backup and asks before replacing data.
 
 **Try the screenshot example** loads all 17 screenshot rows and sample details. Sample prices never populate a new bill. Unsaved edits prompt before navigation/closing. Saved bill numbers must be unique. A saved invoice captures its business header so later business changes do not rewrite it.

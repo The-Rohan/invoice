@@ -16,6 +16,14 @@ app.whenReady().then(()=>{
   writeQueue=task.catch(()=>{});await task;return true;
  });
  ipcMain.handle('backup',async(_,data)=>{const {canceled,filePath}=await dialog.showSaveDialog(win,{defaultPath:'mandi-backup.json',filters:[{name:'Mandi backup',extensions:['json']}]});if(canceled)return false;await fs.writeFile(filePath,data,{mode:0o600});return true;});
+ ipcMain.handle('save-pdf',async(_,number)=>{
+  const safe=String(number||'invoice').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,80);
+  const {canceled,filePath}=await dialog.showSaveDialog(win,{title:'Save invoice as PDF',defaultPath:`Invoice-${safe}.pdf`,filters:[{name:'PDF document',extensions:['pdf']}],properties:['showOverwriteConfirmation']});
+  if(canceled||!filePath)return false;
+  const bytes=await win.webContents.printToPDF({printBackground:true,preferCSSPageSize:true,landscape:true,pageSize:'A4'});
+  await fs.writeFile(filePath,bytes);
+  return true;
+ });
  ipcMain.handle('print',()=>new Promise((resolve,reject)=>win.webContents.print({silent:false,printBackground:true,landscape:true,pageSize:'A4'},(success,reason)=>{if(success||reason==='cancelled')resolve(success);else reject(new Error(reason));})));
 });
 app.on('window-all-closed',()=>app.quit());

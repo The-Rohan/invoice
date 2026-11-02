@@ -16,6 +16,18 @@ try{
  await page.waitForFunction(()=>document.querySelector('#toast').textContent==='Invoice saved on this device.');
  const saved=JSON.parse(await fs.readFile(path.join(dir,'invoices.json'),'utf8'));assert.equal(saved.invoices[0].number,'6110');
  await page.locator('#preview').click();await page.evaluate(()=>document.fonts.ready);assert.ok((await page.locator('.bottom-totals').innerText()).includes('519250'));
+ // Exercise the real PDF IPC and file writer while replacing only the OS dialog.
+ await app.evaluate(({dialog},folder)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:folder+'/export.pdf'});},dir);
+ await page.getByRole('button',{name:'Save as PDF',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#toast').textContent==='PDF saved.');
+ assert.equal((await fs.readFile(path.join(dir,'export.pdf'))).subarray(0,5).toString(),'%PDF-');
+ await app.evaluate(({dialog})=>{dialog.showSaveDialog=async()=>({canceled:true});});
+ await page.getByRole('button',{name:'Save as PDF',exact:true}).click();
+ await page.waitForFunction(()=>!document.querySelector('#save-pdf').disabled);
+ await app.evaluate(({BrowserWindow})=>{const win=BrowserWindow.getAllWindows()[0];globalThis.printCalls=0;win.webContents.print=(_options,callback)=>{globalThis.printCalls++;callback(true);};});
+ await page.getByRole('button',{name:'Print',exact:true}).click();
+ await page.waitForFunction(()=>!document.querySelector('#print').disabled);
+ assert.equal(await app.evaluate(()=>globalThis.printCalls),1);
  const bytes=await app.evaluate(async({BrowserWindow})=>Array.from(await BrowserWindow.getAllWindows()[0].webContents.printToPDF({printBackground:true,preferCSSPageSize:true})));
  assert.equal(Buffer.from(bytes).subarray(0,5).toString(),'%PDF-');
  await app.close();app=null;
