@@ -4,6 +4,10 @@ A focused, offline Urdu fish-market billing app for Intel Mac and Windows x64. S
 
 This is a new standalone MIT-licensed Electron app, not an Invoiso fork or an Invoiso database upgrade. Invoiso was inspected at commit `a7f9f6da9de149214142a4b2b6188efba85994e4`; no upstream application source was copied. Your existing Invoiso database remains separate. Importing it needs a version-specific migration, which is not implemented here.
 
+[View the generated sample PDF](docs/sample-invoice.pdf)
+
+![Generated Urdu invoice](docs/sample-invoice.png)
+
 ## Use it
 
 1. Open the app and choose **Business settings**. Confirm the Urdu business name, address and contact numbers.
