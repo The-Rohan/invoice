@@ -83,7 +83,7 @@ No weight deduction is needed to reconcile the screenshot. The earlier suspicion
 
 The 2% commission is inferred from this example and editable; it is not a confirmed universal business rule. The Rs 214 fee stays manual. Some small footer labels are uncertain; changing them requires confirmation. Negative final balance is allowed when the payment exceeds the balance and represents customer credit.
 
-Species totals: کفام 41.0 kg; سلور 72.5; روہو 157.0; تھیلہ 149.0; بگ ہیڈ 104.5; گراس 20.5. The current strip uses first-occurrence order, which differs from the source's species order. Footer includes signature line and نوٹ. There is no tax, discount, logo or QR visibly required.
+Species totals: کفام 41.0 kg; سلور 72.5; روہو 157.0; تھیلہ 149.0; بگ ہیڈ 104.5; گراس 20.5. The strip uses the screenshot's species order, with additional custom species appended. Footer includes signature line and نوٹ. There is no tax, discount, logo or QR visibly required.
 
 ## Operator journey
 

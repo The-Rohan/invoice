@@ -12,6 +12,10 @@ Validated in the Linux x64 cloud instance on 2026-11-02. Node 24.19.0; Electron 
 
 Generated artifacts are under `dist/`. Test PDFs and screenshots are under `test-results/` and deliberately excluded from source control. `dist/SHA256SUMS` records checksums for final downloadable packages.
 
+## Installer build limitation
+
+The local Windows NSIS installer attempt failed because Wine is not installed in this Linux environment. The supported deliverable here is the Windows portable ZIP. Native Windows CI is configured to generate the installer without Wine. No successful local installer build is claimed.
+
 ## Not yet verified
 
 - The Mac and Windows Actions jobs have not been observed to complete. They are configured to run the same native desktop persistence/PDF test before producing installers. GitHub API requests were denied by environment networking; `api.github.com` was added to the environment draft, not yet applied by that draft save.
