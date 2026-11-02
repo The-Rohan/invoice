@@ -13,3 +13,9 @@ await fs.mkdir('release',{recursive:true});
 const name=`Mandi-Invoice-${version}-${target==='mac'?'mac-intel':'windows-x64'}${extension}`;
 await fs.copyFile(source,path.join('release',name));
 console.log(`Prepared ${name}`);
+
+const zips=(await fs.readdir('dist')).filter(f=>f.endsWith('.zip')&&f.includes(version)&&f.includes(target==='mac'?'mac':'win'));
+if(zips.length!==1)throw new Error('Expected one platform ZIP');
+const zipName=`Mandi-Invoice-${version}-${target==='mac'?'mac-intel':'windows-x64'}.zip`;
+await fs.copyFile(path.join('dist',zips[0]),path.join('release',zipName));
+console.log(`Prepared ${zipName}`);
