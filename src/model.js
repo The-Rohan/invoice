@@ -1,11 +1,24 @@
-export const species = ['کفام','سلور','روہو','تھیلہ','بگ ہیڈ','گراس'];
+export const species = ['راہو','مراکھی','گراس','سلور','تھیلا','گلفام','سول','سنگھاڑہ','ملی','چڑا','بام'];
+// Preserve the original invoice example independently of the searchable shop catalogue.
+const sampleSpecies = ['کفام','سلور','روہو','تھیلہ','بگ ہیڈ','گراس'];
+export const speciesSummaryOrder = ['تھیلا','تھیلہ','سلور','راہو','روہو','گلفام','کفام','گراس','بگ ہیڈ',...species];
 export function blankInvoice(settings = {}) {
  return {id:crypto.randomUUID(), number:'', date:new Date().toLocaleDateString('en-CA'), customer:'', address:'', phone:'', account:'', rows:[{species:species[0],weight:0,rate:0}], commission:2, fee:0, labour:0, freight:0, other:0, previous:0, paid:0, notes:'', ...settings};
 }
-export const defaultBusiness = {name:'ملک مچھلی منڈی',subtitle:'مین گجرات روڈ نزد پُل بائی پاس چک',tagline:'ہول سیل کمیشن ایجنٹ',rightTitle:'پروپرائٹر',rightName:'ملک فہیم خالد',rightPhones:'0347-4904825\n0343-0503100',leftName:'محمد طاہر تارڑ',leftPhones:'0344-6559500',manager:'منیجر : رانا بابر',managerPhones:'0300-5627353\n0341-6065365'};
+export const legacyBusiness = {name:'ملک مچھلی منڈی',subtitle:'مین گجرات روڈ نزد پُل بائی پاس چک',tagline:'ہول سیل کمیشن ایجنٹ',rightTitle:'پروپرائٹر',rightName:'ملک فہیم خالد',rightPhones:'0347-4904825\n0343-0503100',leftName:'محمد طاہر تارڑ',leftPhones:'0344-6559500',manager:'منیجر : رانا بابر',managerPhones:'0300-5627353\n0341-6065365'};
+export const defaultBusiness = {name:'مٹمل مچھلی منڈی',subtitle:'',tagline:'چیف ایگزیکٹو: چوہدری اکبر حسین',rightTitle:'رابطہ',rightName:'رانا آصف',rightPhones:'0303-4594274\n0347-9612206',leftName:'عامر شہزاد مٹمل',leftPhones:'0320-5827942\n0329-6499536',manager:'منشی فرحان آصف',managerPhones:''};
+// Only replace the untouched sample header. Preserve customized businesses and old invoices.
+export function upgradeBusinessDefaults(saved) {
+ validateStore(saved);
+ if(!Object.keys(legacyBusiness).every(key=>saved.business[key]===legacyBusiness[key]))return saved;
+ const next=structuredClone(saved);
+ for(const invoice of next.invoices) invoice.business ??= structuredClone(saved.business);
+ next.business={...defaultBusiness};
+ return next;
+}
 export function sampleInvoice() {
  const data = [[0,21,20500],[0,20,21500],[2,4.5,19000],[1,72.5,14200],[2,44,19000],[2,17,13500],[2,41.5,16500],[2,7.5,21000],[3,45.5,18000],[2,42.5,17000],[3,42,17500],[3,11.5,17500],[3,27,13500],[3,23,13500],[4,18,13000],[4,86.5,14500],[5,20.5,23000]];
- return {...blankInvoice(),number:'6110',date:'2026-10-04',customer:'آصف ماچھی بھروپی گڑھ',address:'بھروپ گڑھ',phone:'03034594274',account:'958',rows:data.map(([s,weight,rate])=>({species:species[s],weight,rate})),fee:214,labour:200,freight:2000,previous:287450};
+ return {...blankInvoice(),number:'6110',date:'2026-10-04',customer:'آصف ماچھی بھروپی گڑھ',address:'بھروپ گڑھ',phone:'03034594274',account:'958',rows:data.map(([s,weight,rate])=>({species:sampleSpecies[s],weight,rate})),fee:214,labour:200,freight:2000,previous:287450};
 }
 // Decimal strings become scaled integers before multiplication: no binary float rounding at the rupee boundary.
 function scaled(value, decimals) {

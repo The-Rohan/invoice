@@ -8,6 +8,10 @@ This is a new standalone MIT-licensed Electron app, not an Invoiso fork or an In
 
 ![Generated Urdu invoice](docs/sample-invoice.png)
 
+## Shop identity
+
+Current defaults use **مٹمل مچھلی منڈی** and the contacts/fish names from your shop sign. See [shop details and upgrade behavior](docs/SHOP-DETAILS.md). Rates are always entered per sale. The screenshots below show the earlier branding and will be refreshed with the next build.
+
 ## Software screenshots
 
 Captured from the running application in Chromium on Linux, using the approved sample invoice. The Electron desktop app uses the same interface; these images do not show native macOS or Windows window frames.

@@ -13,7 +13,12 @@ try{
  page.on('pageerror',e=>errors.push(e.message));
  page.on('dialog',d=>d.accept());
  await page.goto(`http://127.0.0.1:${server.address().port}`);
+ assert.equal(await page.locator('.brand').innerText(),'مٹمل مچھلی منڈی');
+ assert.ok((await page.locator('.business-contacts').innerText()).includes('عامر شہزاد مٹمل'));
  await page.getByText('Try the screenshot example',{exact:true}).click();
+ const fishOptions=await page.locator('#species option').evaluateAll(nodes=>nodes.map(n=>n.value));
+ assert.ok(fishOptions.includes('ملی') && fishOptions.includes('چڑا'));
+ assert.ok(!fishOptions.includes('ٹلی') && !fishOptions.includes('چپڑا'));
  assert.equal(await page.locator('#rows tr').count(),17);
  assert.ok((await page.locator('#live-totals').innerText()).includes('519,250'));
  await page.locator('#save').click();
@@ -26,6 +31,9 @@ try{
  await page.getByLabel('Rate 1',{exact:true}).fill('20500');
  await page.locator('#preview').click();await page.evaluate(()=>document.fonts.ready);
  assert.equal(await page.locator('.paper').count(),1);
+ assert.equal(await page.locator('.business h1').innerText(),'مٹمل مچھلی منڈی');
+ const printedText=await page.locator('.paper').innerText();
+ for(const contact of ['عامر شہزاد مٹمل','رانا آصف','منشی فرحان آصف','0320-5827942','0329-6499536','0303-4594274','0347-9612206'])assert.ok(printedText.includes(contact));
  assert.equal(await page.locator('.invoice-table:first-child tbody tr:first-child .serial').innerText(),'1');
  assert.equal(await page.locator('.invoice-table:last-child tbody tr:first-child .serial').innerText(),'2');
  assert.ok((await page.locator('.bottom-totals').innerText()).includes('519250'));
@@ -43,7 +51,7 @@ try{
  const downloadPromise=page.waitForEvent('download');await page.locator('#backup').click();const download=await downloadPromise;await download.saveAs('test-results/backup.json');
  const backup=JSON.parse(await fs.readFile('test-results/backup.json','utf8'));assert.equal(backup.invoices.length,1);
  await page.locator('#settings').click();await page.locator('[name=name]').fill('ٹیسٹ مچھلی منڈی');await page.getByText('Save settings',{exact:true}).click();
- await page.locator('#import-file').setInputFiles('test-results/backup.json');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('#preview').click();assert.equal(await page.locator('.business h1').innerText(),'ملک مچھلی منڈی');
+ await page.locator('#import-file').setInputFiles('test-results/backup.json');await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('#preview').click();assert.equal(await page.locator('.business h1').innerText(),'مٹمل مچھلی منڈی');
  assert.match(execFileSync('pdfinfo',['test-results/sample-invoice.pdf'],{encoding:'utf8'}),/Pages:\s+1\b/);
  assert.match(execFileSync('pdfinfo',['test-results/multipage.pdf'],{encoding:'utf8'}),/Pages:\s+2\b/);
  assert.deepEqual(errors,[]);
