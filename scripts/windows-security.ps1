@@ -30,6 +30,8 @@ if ($status.AntivirusEnabled -and $scanner) {
 }
 $report | Set-Content 'release/WINDOWS-SECURITY.txt'
 $report | ForEach-Object { Write-Output $_ }
+$summary = ($report -join ' | ').Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+Write-Output "::notice::$summary"
 
 } catch {
     $message = ($_.Exception.Message + ' | ' + ($report -join ' | ')).Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
