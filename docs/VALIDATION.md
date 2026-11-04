@@ -43,3 +43,7 @@ Ten local model tests passed, including multi-bill carry-forward, payments, edit
 ## Version 1.0.5 deletion and unsaved-work flows
 
 Eleven model tests passed, including safe deletion, restore order, retained invoice numbering and linked balance protection. Browser integration passed deletion confirmation/cancellation, restore, blocked parent deletion, absent demo button, unsaved cancellation/discard, saving business settings before navigation, and staying on invalid drafts. Native Electron tests passed closing via Cancel, Save and Discard, with file contents checked after exit. The existing calculator, PDF, backup and returning-customer checks also passed.
+
+## Version 1.0.6 Windows security
+
+Eleven calculation/model tests and the browser integration/PDF suite pass locally. Electron 45.2.2 passes the Linux native invoice, persistence, PDF and unsaved-close regression harness. Native tests also assert that Internet requests are blocked, renderer Node access is absent and IPC calls from an unrelated window are rejected. Windows and Intel Mac CI repeat the source and packaged-app tests. The Windows release report records actual Authenticode status and Defender availability/results; this does not establish SmartScreen reputation or Windows 7 compatibility.

@@ -1,6 +1,6 @@
 {
   "name": "mandi-invoice",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Offline Urdu fish-market invoicing",
   "author": "Mandi Invoice contributors",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "dist:win": "electron-builder --win nsis --x64"
   },
   "devDependencies": {
-    "electron": "^39.0.0",
+    "electron": "45.2.2",
     "electron-builder": "^26.0.12",
     "playwright": "^1.56.1"
   },
@@ -49,11 +49,14 @@
           ]
         }
       ],
-      "signAndEditExecutable": false
+      "requestedExecutionLevel": "asInvoker"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "allowElevation": false,
+      "packElevateHelper": false
     },
     "directories": {
       "output": "dist"

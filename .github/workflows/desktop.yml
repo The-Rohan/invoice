@@ -32,15 +32,25 @@ jobs:
       - name: Desktop persistence and preview smoke test
         run: node test/desktop.mjs
       - name: Build native installer
-        run: npx electron-builder --${{ matrix.target }} ${{ matrix.target == 'mac' && 'dmg zip' || 'nsis zip' }} --x64 --publish never
+        run: npx electron-builder --${{ matrix.target }} ${{ matrix.target == 'mac' && 'dmg zip' || 'nsis zip' }} --x64 --publish never ${{ matrix.target == 'win' && vars.REQUIRE_WINDOWS_SIGNING == 'true' && '-c.forceCodeSigning=true' || '' }}
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+          WIN_CSC_LINK: ${{ matrix.target == 'win' && secrets.WIN_CSC_LINK || '' }}
+          WIN_CSC_KEY_PASSWORD: ${{ matrix.target == 'win' && secrets.WIN_CSC_KEY_PASSWORD || '' }}
+          REQUIRE_WINDOWS_SIGNING: ${{ vars.REQUIRE_WINDOWS_SIGNING }}
       - name: Test the packaged application
         run: node test/desktop.mjs
         env:
           MANDI_EXECUTABLE: ${{ matrix.executable }}
       - name: Prepare named download
         run: node scripts/prepare-release.mjs ${{ matrix.target }}
+      - name: Verify Windows signatures and scan with Defender
+        if: matrix.target == 'win'
+        shell: pwsh
+        env:
+          SIGNING_CONFIGURED: ${{ secrets.WIN_CSC_LINK != '' }}
+          REQUIRE_WINDOWS_SIGNING: ${{ vars.REQUIRE_WINDOWS_SIGNING }}
+        run: ./scripts/windows-security.ps1
       - uses: actions/upload-artifact@v4
         with:
           name: Mandi-Invoice-${{ matrix.target }}-x64

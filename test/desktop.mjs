@@ -14,6 +14,21 @@ let app;
 try{
  app=await electron.launch(launchOptions);
  let page=await app.firstWindow();
+ // Verify production security boundaries, not just the UI's CSP.
+ assert.equal(await app.evaluate(async({BrowserWindow})=>{
+  const win=BrowserWindow.getAllWindows()[0];
+  try{await win.webContents.session.fetch('https://example.com/');return false;}catch{return true;}
+ }),true);
+ assert.equal(await page.evaluate(()=>typeof window.require),'undefined');
+ assert.equal(await app.evaluate(async({BrowserWindow,ipcMain})=>{
+  const outsider=new BrowserWindow({show:false,webPreferences:{sandbox:true}});
+  await outsider.loadURL('about:blank');
+  const handler=ipcMain._invokeHandlers.get('load');
+  try{await handler({sender:outsider.webContents,senderFrame:outsider.webContents.mainFrame});return false;}
+  catch(error){return error.message.includes('Untrusted');}
+  finally{outsider.destroy();}
+ }),true);
+
  await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('#save').click();
  await page.waitForFunction(()=>document.querySelector('#toast').textContent==='Invoice saved on this device.');
  const saved=JSON.parse(await fs.readFile(path.join(dir,'invoices.json'),'utf8'));assert.equal(saved.invoices[0].number,'6110');

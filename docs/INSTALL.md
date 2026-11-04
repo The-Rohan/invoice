@@ -8,9 +8,9 @@ Download the file ending in **mac-intel.dmg**. Double-click the DMG, then drag *
 
 This is an unsigned preview. If macOS blocks it as an unidentified developer, use the per-app **Privacy & Security → Open Anyway** flow if you trust this build. Do not disable Gatekeeper globally. The app targets Intel x64. Automated tests do not replace a real-device check of installation and printing.
 
-## Windows x64
+## Windows 10/11 x64
 
-Download the file ending in **windows-x64.exe**, run it and follow the setup wizard. This unsigned preview may show an unidentified-publisher warning.
+Download the file ending in **windows-x64.exe**, run it and follow the setup wizard. Setup installs for the current user without administrator elevation. Check the release’s `WINDOWS-SECURITY.txt` for actual signing and scan results. Unsigned builds may show publisher warnings; never bypass a Defender threat alert. Windows 7 is unsupported. See [Windows security](WINDOWS-SECURITY.md).
 
 ## Portable archives
 

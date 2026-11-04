@@ -1,3 +1,5 @@
+New in 1.0.6: updated Electron runtime, offline network and permission restrictions, trusted-frame IPC validation, validated backups, per-user Windows setup without elevation, Authenticode signing support, and a published Windows signature/Defender report. Windows 10/11 x64 are supported targets; Windows 7 is not supported. Signing requires publisher credentials. No guarantee of warning-free downloads is made.
+
 New in 1.0.5: reversible invoice deletion, linked-balance protection, removal of the demo action, and Save / Discard / Cancel for unsaved invoices and settings, including desktop window close.
 
 New in 1.0.4: automatic returning-customer بقایا, account/phone-qualified suggestions, linked balance carry-forward, customer credits, and safe invoice editing without double-counting.

@@ -119,3 +119,5 @@ Full analysis, transcription, arithmetic and user journey: [docs/INVOICE-PLAN.md
 Choose the customer from the suggestions (account/phone distinguishes identical names). The most recently created saved bill supplies their remaining بقایا, including payments recorded on invoices. The carried amount is read-only; new customers may enter an opening balance. Negative balances are customer credit.
 
 New bills link to the preceding bill rather than summing accumulated totals. Reopening or editing a bill does not add its own balance again. Corrections to a linked earlier bill recalculate the later balance when opened or printed. Previously exported PDFs are unchanged. For records created before 1.0.4, the latest bill's recorded balance is the starting point; verify that historical opening amount once. Standalone payments outside invoices are not yet supported.
+
+Windows 10/11 x64: see [security, signing and Defender checks](docs/WINDOWS-SECURITY.md). Windows 7 is unsupported.
