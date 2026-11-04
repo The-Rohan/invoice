@@ -1,3 +1,4 @@
+import {customerOption,findCustomer,closingBalance,effectiveInvoice,validateCustomerLinks} from '../src/customer-balance.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {sampleInvoice,totals,validateInvoice,validateStore,emptyStore,defaultBusiness,legacyBusiness,upgradeBusinessDefaults,species} from '../src/model.js';
@@ -27,4 +28,22 @@ test('new fish entries print the corrected business details without fixed prices
  assert.deepEqual(totals(i).lines,[100,200]);
  assert.ok(!species.includes('ٹلی') && !species.includes('چپڑا'));
  assert.ok(species.includes('ملی') && species.includes('چڑا'));
+});
+
+test('returning customer balance chains carry once, account for payments and reflect edits',()=>{
+ const a={...sampleInvoice(),id:'a',number:'1',previous:100,commission:0,fee:0,labour:0,freight:0,rows:[{species:'Fish',weight:40,rate:1000}],paid:300};
+ const b={...a,id:'b',number:'2',previous:800,previousSourceId:'a',paid:200};
+ const c={...a,id:'c',number:'3',previous:1600,previousSourceId:'b',paid:0};
+ const invoices=[c,b,a];assert.equal(closingBalance(c,invoices),2600);
+ a.paid=500;assert.equal(closingBalance(c,invoices),2400);assert.equal(effectiveInvoice(b,invoices).previous,600);
+ b.paid=3000;assert.equal(closingBalance(b,invoices),-1400);assert.equal(effectiveInvoice(c,invoices).previous,-1400);
+ assert.equal(closingBalance(c,invoices),-400);
+});
+test('duplicate names require account selection and unsafe customer links are rejected',()=>{
+ const a={...sampleInvoice(),id:'a',account:'1'},b={...sampleInvoice(),id:'b',number:'2',account:'2'};
+ assert.throws(()=>findCustomer([b,a],a.customer),/Several/);
+ assert.equal(findCustomer([b,a],customerOption(a)),a);
+ assert.throws(()=>validateCustomerLinks([a,{...b,previousSourceId:'a'}]),/different customer/);
+ assert.throws(()=>validateCustomerLinks([{...a,previousSourceId:'missing'}]),/missing/);
+ assert.throws(()=>validateCustomerLinks([{...a,previousSourceId:'a'}]),/Circular/);
 });

@@ -49,7 +49,7 @@ To regenerate these screenshots from the repository root, run `node scripts/scre
 1. Open the app and choose **Business settings**. Confirm the Urdu business name, address and contact numbers.
 2. Choose **New invoice**, enter a customer, bill number and date. Previously saved customer names are searchable and fill their contact details.
 3. Search/type each fish name. Enter kilograms and the rate agreed with this buyer **per 40 kg**. Add as many rows as needed. Repeated fish can have different prices.
-4. Enter commission, fee, labour, freight, previous balance and payment. Previous balance is explicitly entered; this app does not maintain an automatic customer ledger.
+4. Enter commission, fee, labour, freight, previous balance and payment. Select a returning customer to fetch their remaining balance automatically. New customers may have a manual opening balance.
 5. **Save invoice**, then **Preview & print → Print or Save as PDF**. Use A4 landscape, 100% scale, no browser headers, and backgrounds enabled. Print opens the printer dialog. Save as PDF opens a file-save dialog directly and exports the full invoice.
 6. Use **Back up** regularly. **Restore** validates a backup and asks before replacing data.
 
@@ -99,6 +99,12 @@ Desktop data is an atomically replaced JSON file in Electron's OS-specific appli
 
 The layout follows the supplied screenshot, but it is not a certified pixel/letter-perfect reconstruction. The original small Urdu address/customer text is ambiguous at this resolution; see the transcription notes. Noto Naskh Arabic is bundled under the SIL Open Font License for offline text shaping. Original paper dimensions and font are unknown; A4 landscape is the tested default. Long text, unusually large values and physical printer margins need review before production use.
 
-No automatic ledger, stock control, tax compliance, Invoiso import, cloud sync or multi-user concurrency is implemented. Charges are explicit inputs; no unconfirmed business rule is silently inferred for the Rs 214 fee.
+Customer balances carry forward through linked bills. Standalone payments, stock control, tax compliance, Invoiso import, cloud sync and multi-user concurrency are not implemented. Charges are explicit inputs; no unconfirmed business rule is silently inferred for the Rs 214 fee.
 
 Full analysis, transcription, arithmetic and user journey: [docs/INVOICE-PLAN.md](docs/INVOICE-PLAN.md).
+
+## Returning customer balances
+
+Choose the customer from the suggestions (account/phone distinguishes identical names). The most recently created saved bill supplies their remaining بقایا, including payments recorded on invoices. The carried amount is read-only; new customers may enter an opening balance. Negative balances are customer credit.
+
+New bills link to the preceding bill rather than summing accumulated totals. Reopening or editing a bill does not add its own balance again. Corrections to a linked earlier bill recalculate the later balance when opened or printed. Previously exported PDFs are unchanged. For records created before 1.0.4, the latest bill's recorded balance is the starting point; verify that historical opening amount once. Standalone payments outside invoices are not yet supported.

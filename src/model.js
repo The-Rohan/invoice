@@ -48,7 +48,8 @@ export function totals(invoice) {
  const amount=k=>scaled(invoice[k],0);
  const merchandise=subtotal+commission+amount('fee');
  const current=merchandise+amount('labour')+amount('freight')+amount('other');
- const balance=current+amount('previous')-amount('paid');
+ const previous=String(invoice.previous).startsWith('-')?-scaled(String(invoice.previous).slice(1),0):amount('previous');
+ const balance=current+previous-amount('paid');
  if(!Number.isSafeInteger(balance)||!Number.isSafeInteger(current)) throw new Error('Total is too large.');
  return {lines,subtotal,commission,merchandise,current,balance,weight:grams/1000,maunds:Math.floor(grams/40000),remainder:(grams%40000)/1000,groups:Object.fromEntries(Object.entries(groups).map(([k,v])=>[k,v/1000]))};
 }

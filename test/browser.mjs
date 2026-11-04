@@ -77,6 +77,19 @@ try{
  await page.locator('#cancel').click();await page.locator('#new').click();
  await page.locator('#lot-weight').fill('40');await page.locator('#lot-rate').fill('500');await page.locator('#add-lot').click();
  assert.equal(await page.locator('#rows tr').count(),1);assert.equal(await page.locator('[data-amount="0"]').innerText(),'500');
+ await page.locator('[name=customer]').fill(backup.invoices[0].customer);await page.locator('[name=customer]').press('Tab');
+ assert.equal(await page.locator('[name=previous]').inputValue(),'533797');
+ assert.equal(await page.locator('[name=previous]').getAttribute('readonly'),'');
+ await page.locator('[name=customer]').fill('Completely new customer');await page.locator('[name=customer]').press('Tab');
+ assert.equal(await page.locator('[name=previous]').inputValue(),'0');
+ assert.equal(await page.locator('[name=previous]').getAttribute('readonly'),null);
+ await page.locator('[name=customer]').fill(backup.invoices[0].customer);await page.locator('[name=customer]').press('Tab');
+ await page.locator('#save').click();await page.reload();
+ await page.locator('tr').filter({hasText:'#6111'}).getByRole('button',{name:'Open',exact:true}).click();
+ assert.equal(await page.locator('[name=previous]').inputValue(),'533797');
+ assert.ok((await page.locator('#live-totals').innerText()).includes('534,307'));
+ await page.locator('#save').click();await page.locator('#preview').click();
+ assert.ok((await page.locator('.bottom-totals').innerText()).includes('534307'));
  assert.deepEqual(errors,[]);
  console.log('PASS: sample, negotiated rates, save/reload, search, settings, backup/restore, RTL ordering, embedded font, single/multipage PDF; no page errors.');
 }finally{await browser.close();server.close();}

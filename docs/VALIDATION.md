@@ -35,3 +35,7 @@ The workflow YAML was parsed and its build dependency/permissions checked locall
 ## Version 1.0.2 fish entry
 
 Eight model tests pass. Browser integration now also verifies chip selection, weight-to-rate Enter navigation, live price rounding, rejection of empty lots, blocking save/preview with an unadded lot, Enter/click addition, clearing fields and returning focus, repeated fish with independent rates, custom fish, save/reload, and replacement of the initial blank row. The full browser/PDF suite passed and software screenshots were regenerated.
+
+## Version 1.0.4 customer balances
+
+Ten local model tests passed, including multi-bill carry-forward, payments, edits to earlier linked invoices, credit balances, duplicate-name disambiguation, missing/circular/wrong-customer links. Browser integration passed returning-customer autofill, clearing when switching to a new customer, read-only carried amounts, save/reopen without double-counting, and printed closing balance. Existing calculation and PDF checks also passed.
