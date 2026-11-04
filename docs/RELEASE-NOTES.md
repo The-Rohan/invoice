@@ -1,3 +1,5 @@
+New in 1.0.5: reversible invoice deletion, linked-balance protection, removal of the demo action, and Save / Discard / Cancel for unsaved invoices and settings, including desktop window close.
+
 New in 1.0.4: automatic returning-customer بقایا, account/phone-qualified suggestions, linked balance carry-forward, customer credits, and safe invoice editing without double-counting.
 
 New in 1.0.3: separate Print and Save as PDF buttons. PDF export opens a file-save dialog directly, with an invoice-number filename and embedded Urdu text.

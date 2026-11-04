@@ -15,7 +15,8 @@ try{
  await page.goto(`http://127.0.0.1:${server.address().port}`);
  assert.equal(await page.locator('.brand').innerText(),'مٹمل مچھلی منڈی');
  assert.ok((await page.locator('.business-contacts').innerText()).includes('عامر شہزاد مٹمل'));
- await page.getByText('Try the screenshot example',{exact:true}).click();
+ await page.evaluate(async()=>{const {emptyStore,sampleInvoice}=await import('/model.js');const seed=emptyStore();seed.invoices=[sampleInvoice()];localStorage.setItem('mandi-invoice-v1',JSON.stringify(seed));});await page.reload();
+ await page.getByRole('button',{name:'Open',exact:true}).click();
  const fishOptions=await page.locator('#species option').evaluateAll(nodes=>nodes.map(n=>n.value));
  assert.ok(fishOptions.includes('ملی') && fishOptions.includes('چڑا'));
  assert.ok(!fishOptions.includes('ٹلی') && !fishOptions.includes('چپڑا'));
@@ -90,6 +91,25 @@ try{
  assert.ok((await page.locator('#live-totals').innerText()).includes('534,307'));
  await page.locator('#save').click();await page.locator('#preview').click();
  assert.ok((await page.locator('.bottom-totals').innerText()).includes('534307'));
+ await page.locator('#home').click();
+ assert.equal(await page.getByText('Try the screenshot example',{exact:true}).count(),0);
+ await page.locator('tr').filter({hasText:'#6110'}).getByRole('button',{name:'Delete',exact:true}).click();
+ assert.ok((await page.locator('#toast').innerText()).includes('later invoice'));
+ await page.locator('tr').filter({hasText:'#6111'}).getByRole('button',{name:'Delete',exact:true}).click();
+ await page.getByRole('button',{name:'Cancel',exact:true}).click();assert.equal(await page.locator('[data-open]').count(),2);
+ await page.locator('tr').filter({hasText:'#6111'}).getByRole('button',{name:'Delete',exact:true}).click();
+ await page.getByRole('button',{name:'Delete invoice',exact:true}).click();await page.locator('[data-open]').first().waitFor();
+ assert.equal(await page.locator('[data-open]').count(),1);
+ await page.locator('#toggle-trash').click();await page.locator('#list').getByRole('button',{name:'Restore',exact:true}).click();
+ await page.locator('#toggle-trash').click();await page.locator('tr').filter({hasText:'#6111'}).getByRole('button',{name:'Open',exact:true}).click();
+ await page.locator('[name=notes]').fill('Discard this note');await page.locator('#home').click();
+ await page.getByRole('button',{name:'Cancel',exact:true}).click();assert.equal(await page.locator('[name=notes]').inputValue(),'Discard this note');
+ await page.locator('#home').click();await page.getByRole('button',{name:'Discard changes',exact:true}).click();
+ await page.locator('#settings').click();await page.locator('[name=name]').fill('Updated business');await page.locator('#home').click();
+ await page.getByRole('button',{name:'Save changes',exact:true}).click();await page.locator('#new').waitFor();assert.equal(await page.locator('.brand').innerText(),'Updated business');
+ await page.locator('#new').click();await page.locator('[name=notes]').fill('Incomplete draft');await page.locator('#home').click();
+ await page.getByRole('button',{name:'Save changes',exact:true}).click();assert.equal(await page.locator('#editor').count(),1);
+ await page.locator('#home').click();await page.getByRole('button',{name:'Discard changes',exact:true}).click();
  assert.deepEqual(errors,[]);
  console.log('PASS: sample, negotiated rates, save/reload, search, settings, backup/restore, RTL ordering, embedded font, single/multipage PDF; no page errors.');
 }finally{await browser.close();server.close();}

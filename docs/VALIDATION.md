@@ -39,3 +39,7 @@ Eight model tests pass. Browser integration now also verifies chip selection, we
 ## Version 1.0.4 customer balances
 
 Ten local model tests passed, including multi-bill carry-forward, payments, edits to earlier linked invoices, credit balances, duplicate-name disambiguation, missing/circular/wrong-customer links. Browser integration passed returning-customer autofill, clearing when switching to a new customer, read-only carried amounts, save/reopen without double-counting, and printed closing balance. Existing calculation and PDF checks also passed.
+
+## Version 1.0.5 deletion and unsaved-work flows
+
+Eleven model tests passed, including safe deletion, restore order, retained invoice numbering and linked balance protection. Browser integration passed deletion confirmation/cancellation, restore, blocked parent deletion, absent demo button, unsaved cancellation/discard, saving business settings before navigation, and staying on invalid drafts. Native Electron tests passed closing via Cancel, Save and Discard, with file contents checked after exit. The existing calculator, PDF, backup and returning-customer checks also passed.

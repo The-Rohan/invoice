@@ -44,6 +44,12 @@ Edit the business name, Urdu address, owner and manager contact details.
 
 To regenerate these screenshots from the repository root, run `node scripts/screenshots.mjs` after `npm ci`. This uses a fresh browser profile and does not modify your saved desktop invoices. Chromium must be installed; set `CHROMIUM_PATH` if it is not at `/usr/bin/chromium`.
 
+### Unsaved changes and recovery
+
+![Save, discard or cancel unsaved changes](docs/screenshots/06-unsaved-changes.png)
+
+![Recover deleted invoices](docs/screenshots/07-deleted-invoices.png)
+
 ## Use it
 
 1. Open the app and choose **Business settings**. Confirm the Urdu business name, address and contact numbers.
@@ -53,7 +59,12 @@ To regenerate these screenshots from the repository root, run `node scripts/scre
 5. **Save invoice**, then **Preview & print → Print or Save as PDF**. Use A4 landscape, 100% scale, no browser headers, and backgrounds enabled. Print opens the printer dialog. Save as PDF opens a file-save dialog directly and exports the full invoice.
 6. Use **Back up** regularly. **Restore** validates a backup and asks before replacing data.
 
-**Try the screenshot example** loads all 17 screenshot rows and sample details. Sample prices never populate a new bill. Unsaved edits prompt before navigation/closing. Saved bill numbers must be unique. A saved invoice captures its business header so later business changes do not rewrite it.
+The app opens with your own invoice list; no demo action is shown. Saved bill numbers remain unique, including deleted invoices. A saved invoice captures its business header so later business changes do not rewrite it.
+
+**Delete and restore:** Delete moves a bill to Deleted invoices after confirmation. Restore brings it back. A bill used for a later active customer's balance cannot be deleted until those dependent bills are deleted first. No permanent-delete option is provided.
+
+**Unsaved changes:** Closing the desktop app or switching screens offers Save changes, Discard changes, and Cancel. Saving must succeed before closing; invalid or incomplete details keep the app open. Business settings use the same guard. Browser refresh/close uses the browser's built-in warning instead of the desktop dialog.
+
 
 ## Downloads and platform status
 

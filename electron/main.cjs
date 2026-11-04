@@ -2,10 +2,13 @@ const {app,BrowserWindow,ipcMain,dialog}=require('electron');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 let win;
+let allowClose=false;
 const dataPath=()=>path.join(app.getPath('userData'),'invoices.json');
 let writeQueue=Promise.resolve();
 app.whenReady().then(()=>{
  win=new BrowserWindow({width:1320,height:940,minWidth:800,minHeight:600,backgroundColor:'#f5f6f2',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
+ win.on('close',event=>{if(!allowClose){event.preventDefault();win.webContents.send('request-close');}});
+ ipcMain.on('confirm-close',()=>{allowClose=true;win.close();});
  win.loadFile(path.join(__dirname,'../src/index.html'));
  win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
  win.webContents.on('will-navigate',e=>e.preventDefault());

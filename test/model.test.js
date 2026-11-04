@@ -1,4 +1,4 @@
-import {customerOption,findCustomer,closingBalance,effectiveInvoice,validateCustomerLinks} from '../src/customer-balance.js';
+import {customerOption,findCustomer,closingBalance,effectiveInvoice,validateCustomerLinks,deleteInvoice,restoreInvoice} from '../src/customer-balance.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {sampleInvoice,totals,validateInvoice,validateStore,emptyStore,defaultBusiness,legacyBusiness,upgradeBusinessDefaults,species} from '../src/model.js';
@@ -46,4 +46,14 @@ test('duplicate names require account selection and unsafe customer links are re
  assert.throws(()=>validateCustomerLinks([a,{...b,previousSourceId:'a'}]),/different customer/);
  assert.throws(()=>validateCustomerLinks([{...a,previousSourceId:'missing'}]),/missing/);
  assert.throws(()=>validateCustomerLinks([{...a,previousSourceId:'a'}]),/Circular/);
+});
+
+test('invoice deletion is reversible and protects linked balances',()=>{
+ const a={...sampleInvoice(),id:'a'},b={...sampleInvoice(),id:'b',number:'6111',previousSourceId:'a'};
+ assert.throws(()=>deleteInvoice([b,a],'a'),/later invoice/);
+ const deleted=deleteInvoice([b,a],'b');assert.equal(findCustomer(deleted,a.customer).id,'a');
+ assert.ok(deleted[0].deletedAt);assert.ok(!b.deletedAt);
+ const both=deleteInvoice(deleted,'a');assert.throws(()=>restoreInvoice(both,'b'),/previous linked/);
+ const restored=restoreInvoice(restoreInvoice(both,'a'),'b');assert.equal(restored[0].deletedAt,undefined);
+ assert.equal(closingBalance(restored[0],restored),closingBalance(b,[b,a]));
 });

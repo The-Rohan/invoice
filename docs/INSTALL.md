@@ -18,6 +18,6 @@ A Mac ZIP contains the app to drag into Applications. A Windows portable ZIP mus
 
 ## First bill
 
-Open **Business settings** and confirm the Urdu business name and contact details. Click **New invoice**, choose/type the customer, then enter each fish, weight and negotiated rate. Rates are per 40 kg and are never fixed by fish name. Save, preview and print using A4 landscape. For the supplied example choose **Try the screenshot example**.
+Open **Business settings** and confirm the Urdu business name and contact details. Click **New invoice**, choose/type the customer, then enter each fish, weight and negotiated rate. Rates are per 40 kg and are never fixed by fish name. Save, preview and print using A4 landscape.
 
 Keep a backup before importing or moving data. The backup format is specific to this app; do not restore an Invoiso database into it.

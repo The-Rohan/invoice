@@ -19,7 +19,8 @@ try {
   console.log(`Captured ${name}`);
  }
  await page.goto(`http://127.0.0.1:${server.address().port}`);
- await page.getByText('Try the screenshot example',{exact:true}).click();
+ await page.evaluate(async()=>{const {emptyStore,sampleInvoice}=await import('/model.js');const seed=emptyStore();seed.invoices=[sampleInvoice()];localStorage.setItem('mandi-invoice-v1',JSON.stringify(seed));});await page.reload();
+ await page.getByRole('button',{name:'Open',exact:true}).click();
  await page.locator('#save').click();
  await page.waitForFunction(()=>document.querySelector('#toast').textContent==='Invoice saved on this device.');
  await page.locator('#home').click();
@@ -32,6 +33,13 @@ try {
  await page.locator('#preview').click();
  await page.locator('.paper').waitFor();
  await capture('03-print-preview');
+ await page.locator('#edit').click();await page.locator('[name=notes]').fill('Unsaved invoice note');await page.locator('#home').click();
+ await page.locator('dialog').waitFor();await capture('06-unsaved-changes');
+ await page.getByRole('button',{name:'Discard changes',exact:true}).click();
+ await page.getByRole('button',{name:'Delete',exact:true}).click();await page.getByRole('button',{name:'Delete invoice',exact:true}).click();
+ await page.locator('#toggle-trash').click();await capture('07-deleted-invoices');
+ await page.locator('#list').getByRole('button',{name:'Restore',exact:true}).click();
+
  await page.locator('#settings').click();
  await page.locator('#business').waitFor();
  await capture('04-business-settings');
