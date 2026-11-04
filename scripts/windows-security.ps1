@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $report = [System.Collections.Generic.List[string]]::new()
 $report.Add('Windows build security checks (this is not a guarantee about future detections or SmartScreen reputation).')
 $report.Add("UTC: $([DateTime]::UtcNow.ToString('o'))")
+try {
 $mustSign = $env:SIGNING_CONFIGURED -eq 'true' -or $env:REQUIRE_WINDOWS_SIGNING -eq 'true'
 $targets = @((Get-Item 'dist/win-unpacked/Mandi Invoice.exe')) + @(Get-ChildItem 'release/*.exe')
 foreach ($file in $targets) {
@@ -29,3 +30,9 @@ if ($status.AntivirusEnabled -and $scanner) {
 }
 $report | Set-Content 'release/WINDOWS-SECURITY.txt'
 $report | ForEach-Object { Write-Output $_ }
+
+} catch {
+    $message = ($_.Exception.Message + ' | ' + ($report -join ' | ')).Replace('%', '%25').Replace("`r", '%0D').Replace("`n", '%0A')
+    Write-Output "::error::$message"
+    throw
+}
