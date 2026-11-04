@@ -15,7 +15,7 @@ try {
  async function capture(name) {
   await page.evaluate(()=>document.fonts.ready);
   await page.locator('#toast').waitFor({state:'hidden'});
-  await page.screenshot({path:`docs/screenshots/${name}.png`,fullPage:true});
+  await page.screenshot({path:`docs/screenshots/${name}.png`,fullPage:name!=='06-unsaved-changes'});
   console.log(`Captured ${name}`);
  }
  await page.goto(`http://127.0.0.1:${server.address().port}`);
@@ -44,7 +44,7 @@ try {
  await page.locator('#business').waitFor();
  await capture('04-business-settings');
  assert.deepEqual(errors,[]);
- console.log('Captured four real application screens without page errors.');
+ console.log('Captured application and recovery screens without page errors.');
 } finally {
  await browser.close();
  server.close();
