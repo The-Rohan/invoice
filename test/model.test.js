@@ -57,3 +57,12 @@ test('invoice deletion is reversible and protects linked balances',()=>{
  const restored=restoreInvoice(restoreInvoice(both,'a'),'b');assert.equal(restored[0].deletedAt,undefined);
  assert.equal(closingBalance(restored[0],restored),closingBalance(b,[b,a]));
 });
+test('individual fish sizes preserve prices, survive backups and reject invalid ranges',()=>{
+ const invoice=sampleInvoice(),expected=totals(invoice);
+ for(let grams=250;grams<=10000;grams+=250){invoice.rows[0].sizeGrams=grams;validateInvoice(invoice);assert.deepEqual(totals(invoice),expected);}
+ invoice.rows[0].sizeGrams=1250;
+ const store=emptyStore();store.invoices=[invoice];const restored=JSON.parse(JSON.stringify(store));validateStore(restored);
+ assert.equal(restored.invoices[0].rows[0].sizeGrams,1250);assert.match(invoiceHTML(invoice,store.business),/1.25 kg/);
+ for(const bad of [0,249,251,10250,-250,'<script>',[],true]){invoice.rows[0].sizeGrams=bad;assert.throws(()=>validateStore(store),/fish size/);}
+ delete invoice.rows[0].sizeGrams;validateStore(store);
+});

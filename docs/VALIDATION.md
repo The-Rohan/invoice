@@ -47,3 +47,7 @@ Eleven model tests passed, including safe deletion, restore order, retained invo
 ## Version 1.0.6 Windows security
 
 Eleven calculation/model tests and the browser integration/PDF suite pass locally. Electron 45.2.2 passes the Linux native invoice, persistence, PDF and unsaved-close regression harness. Native tests also assert that Internet requests are blocked, renderer Node access is absent and IPC calls from an unrelated window are rejected. Windows and Intel Mac CI repeat the source and packaged-app tests. The Windows release report records actual Authenticode status and Defender availability/results; this does not establish SmartScreen reputation or Windows 7 compatibility.
+
+## Version 1.0.8 fish sizes
+
+Twelve model tests pass, including all 40 valid sizes, invalid-range rejection, old invoices, backup round trips and unchanged billing totals. Browser tests cover selector choices, row edits, persistence and printed sizes. Native Electron tests verify size persistence alongside existing PDF, security and close/save behavior. Screenshots were regenerated from the app.

@@ -1,3 +1,4 @@
+import {validSize} from './fish-sizes.js';
 export const species = ['راہو','مراکھی','گراس','سلور','تھیلا','گلفام','سول','سنگھاڑہ','ملی','چڑا','بام'];
 // Preserve the original invoice example independently of the searchable shop catalogue.
 const sampleSpecies = ['کفام','سلور','روہو','تھیلہ','بگ ہیڈ','گراس'];
@@ -35,6 +36,7 @@ export function totals(invoice) {
  const groups={}; let grams=0;
  const lines=invoice.rows.map(row=>{
   if(typeof row.species!=='string' || !row.species.trim()) throw new Error('Choose a fish name for every row.');
+  if(!validSize(row.sizeGrams))throw new Error('Choose a fish size from 250 g to 10 kg in 250 g steps.');
   const weight=scaled(row.weight,3), rate=scaled(row.rate,2);
   const amount=Number(BigInt(weight)*BigInt(rate)/4000000n);
   if(!Number.isSafeInteger(amount)) throw new Error('Line total is too large.');

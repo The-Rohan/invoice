@@ -121,3 +121,5 @@ Choose the customer from the suggestions (account/phone distinguishes identical 
 New bills link to the preceding bill rather than summing accumulated totals. Reopening or editing a bill does not add its own balance again. Corrections to a linked earlier bill recalculate the later balance when opened or printed. Previously exported PDFs are unchanged. For records created before 1.0.4, the latest bill's recorded balance is the starting point; verify that historical opening amount once. Standalone payments outside invoices are not yet supported.
 
 Windows 10/11 x64: see [security, signing and Defender checks](docs/WINDOWS-SECURITY.md). Windows 7 is unsupported.
+
+Choose individual fish size beside lot weight and rate: 250 g, half kg, 750 g, 1 kg, 1.25 kg, and every 250 g up to 10 kg. The chosen size appears in the invoice and PDF; total lot weight still determines the amount.

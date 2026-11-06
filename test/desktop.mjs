@@ -9,7 +9,7 @@ const launchOptions={
  ...(process.env.MANDI_EXECUTABLE?{executablePath:path.resolve(process.env.MANDI_EXECUTABLE)}:{}),
  args:[...(process.env.MANDI_EXECUTABLE?[]:['.']),`--user-data-dir=${dir}`,...(process.platform==='linux'?['--no-sandbox','--disable-gpu']:[])]
 };
-const seed=emptyStore();seed.invoices=[sampleInvoice()];await fs.writeFile(path.join(dir,'invoices.json'),JSON.stringify(seed));
+const seed=emptyStore();seed.invoices=[sampleInvoice()];seed.invoices[0].rows[0].sizeGrams=1250;await fs.writeFile(path.join(dir,'invoices.json'),JSON.stringify(seed));
 let app;
 try{
  app=await electron.launch(launchOptions);
@@ -31,7 +31,7 @@ try{
 
  await page.getByRole('button',{name:'Open',exact:true}).click();await page.locator('#save').click();
  await page.waitForFunction(()=>document.querySelector('#toast').textContent==='Invoice saved on this device.');
- const saved=JSON.parse(await fs.readFile(path.join(dir,'invoices.json'),'utf8'));assert.equal(saved.invoices[0].number,'6110');
+ const saved=JSON.parse(await fs.readFile(path.join(dir,'invoices.json'),'utf8'));assert.equal(saved.invoices[0].number,'6110');assert.equal(Number(saved.invoices[0].rows[0].sizeGrams),1250);
  await page.locator('#preview').click();await page.evaluate(()=>document.fonts.ready);assert.ok((await page.locator('.bottom-totals').innerText()).includes('519250'));
  // Exercise the real PDF IPC and file writer while replacing only the OS dialog.
  await app.evaluate(({dialog},folder)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:folder+'/export.pdf'});},dir);

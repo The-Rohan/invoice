@@ -19,7 +19,7 @@ try {
   console.log(`Captured ${name}`);
  }
  await page.goto(`http://127.0.0.1:${server.address().port}`);
- await page.evaluate(async()=>{const {emptyStore,sampleInvoice}=await import('/model.js');const seed=emptyStore();seed.invoices=[sampleInvoice()];localStorage.setItem('mandi-invoice-v1',JSON.stringify(seed));});await page.reload();
+ await page.evaluate(async()=>{const {emptyStore,sampleInvoice}=await import('/model.js');const seed=emptyStore();seed.invoices=[sampleInvoice()];seed.invoices[0].rows[0].sizeGrams=1250;localStorage.setItem('mandi-invoice-v1',JSON.stringify(seed));});await page.reload();
  await page.getByRole('button',{name:'Open',exact:true}).click();
  await page.locator('#save').click();
  await page.waitForFunction(()=>document.querySelector('#toast').textContent==='Invoice saved on this device.');

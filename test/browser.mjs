@@ -57,6 +57,8 @@ try{
  assert.match(execFileSync('pdfinfo',['test-results/multipage.pdf'],{encoding:'utf8'}),/Pages:\s+2\b/);
  await page.locator('#edit').click();
  const initial=await page.locator('#rows tr').count();
+ assert.equal(await page.locator('#lot-size option').count(),41);
+ await page.locator('#lot-size').selectOption('250');
  await page.getByRole('button',{name:'ملی',exact:true}).click();
  assert.equal(await page.getByRole('button',{name:'ملی',exact:true}).getAttribute('aria-pressed'),'true');
  await page.locator('#lot-weight').fill('40');await page.locator('#lot-weight').press('Enter');
@@ -65,6 +67,8 @@ try{
  await page.locator('#preview').click();assert.equal(await page.locator('#fish-picker').count(),1);
  await page.locator('#lot-rate').press('Enter');assert.equal(await page.locator('#rows tr').count(),initial+1);
  assert.equal(await page.locator('#rows tr:last-child [data-key=species]').inputValue(),'ملی');
+ assert.equal(await page.locator('#rows tr:last-child [data-key=sizeGrams]').inputValue(),'250');
+ await page.locator('#rows tr:last-child [data-key=sizeGrams]').selectOption('1250');
  assert.equal(await page.locator('#lot-rate').inputValue(),'');
  assert.equal(await page.locator('#lot-weight').evaluate(el=>el===document.activeElement),true);
  await page.locator('#lot-weight').fill('40');await page.locator('#lot-rate').fill('2000');await page.locator('#add-lot').click();
@@ -75,6 +79,8 @@ try{
  assert.equal(await page.locator('#rows tr:last-child [data-key=species]').inputValue(),'Custom fish');
  await page.locator('#save').click();await page.reload();await page.getByRole('button',{name:'Open',exact:true}).click();
  assert.equal(await page.locator('#rows tr').count(),initial+3);
+ assert.equal(await page.locator(`[data-row="${initial}"][data-key=sizeGrams]`).inputValue(),'1250');
+ await page.locator('#preview').click();assert.ok((await page.locator('.printed-size').allTextContents()).includes('(1.25 kg)'));await page.locator('#edit').click();
  await page.locator('#cancel').click();await page.locator('#new').click();
  await page.locator('#lot-weight').fill('40');await page.locator('#lot-rate').fill('500');await page.locator('#add-lot').click();
  assert.equal(await page.locator('#rows tr').count(),1);assert.equal(await page.locator('[data-amount="0"]').innerText(),'500');
